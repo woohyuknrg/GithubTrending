@@ -3,7 +3,7 @@ import Nimble
 import RxBlocking
 import RxSwift
 import RxCocoa
-import RxTests
+import RxTest
 import Moya
 @testable import github
 
@@ -16,7 +16,7 @@ class DiscoverViewModelSpec: QuickSpec {
         beforeEach {
             scheduler = TestScheduler(initialClock: 0)
             driveOnScheduler(scheduler) {
-                sut = DiscoverViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.ImmediatelyStub))
+                sut = DiscoverViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.immediatelyStub))
             }
             disposeBag = DisposeBag()
         }
@@ -32,7 +32,7 @@ class DiscoverViewModelSpec: QuickSpec {
         }
         
         it("returns one repo when created") {
-            let observer = scheduler.createObserver([RepoCellViewModel])
+            let observer = scheduler.createObserver([RepoCellViewModel].self)
             
             scheduler.scheduleAt(100) {
                 sut.results.asObservable().subscribe(observer).addDisposableTo(disposeBag)
@@ -49,7 +49,7 @@ class DiscoverViewModelSpec: QuickSpec {
         }
         
         it("fetches repos when triggered refresh") {
-            let observer = scheduler.createObserver([RepoCellViewModel])
+            let observer = scheduler.createObserver([RepoCellViewModel].self)
             
             scheduler.scheduleAt(100) {
                 sut.results.asObservable().subscribe(observer).addDisposableTo(disposeBag)
@@ -71,7 +71,7 @@ class DiscoverViewModelSpec: QuickSpec {
         }
 
         it("sends true when network request is executing and false when it finishes") {
-            let observer = scheduler.createObserver(Bool)
+            let observer = scheduler.createObserver(Bool.self)
             scheduler.scheduleAt(100) {
                 sut.executing.asObservable().subscribe(observer).addDisposableTo(disposeBag)
                 sut.results.asObservable().subscribe().addDisposableTo(disposeBag)
@@ -88,14 +88,14 @@ class DiscoverViewModelSpec: QuickSpec {
         }
         
         xit("returns repository view model when item selected") {
-            let observer = scheduler.createObserver(RepositoryViewModel)
+            let observer = scheduler.createObserver(RepositoryViewModel.self)
             
             scheduler.scheduleAt(100) {
                 sut.results.asObservable().subscribe().addDisposableTo(disposeBag)
             }
             
             scheduler.scheduleAt(200) {
-                sut.selectedItem.onNext(NSIndexPath(forRow: 0, inSection: 0))
+                sut.selectedItem.onNext(IndexPath(row: 0, section: 0))
             }
             
             scheduler.scheduleAt(300) {

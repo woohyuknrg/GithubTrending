@@ -15,7 +15,7 @@ class LoginViewModel {
     let loginExecuting: Driver<Bool>
     
     // Private
-    private let provider: RxMoyaProvider<GitHub>
+    fileprivate let provider: RxMoyaProvider<GitHub>
     
     init(provider: RxMoyaProvider<GitHub>) {
         self.provider = provider
@@ -38,24 +38,24 @@ class LoginViewModel {
             .asObservable()
             .withLatestFrom(usernameAndPassword)
             .flatMapLatest { (username, password) in
-                provider.request(GitHub.Token(username: username, password: password))
+                provider.request(GitHub.token(username: username, password: password))
                     .retry(3)
                     .trackActivity(activityIndicator)
                     .observeOn(MainScheduler.instance)
             }
             .checkIfRateLimitExceeded()
             .mapJSON()
-            .doOn(onNext: { json in
+            .do(onNext: { json in
                 var appToken = Token()
-                appToken.token = json["token"] as? String
+                appToken.token = (json as? [String: Any])?["token"] as? String
             })
             .map { json in
-                if let message = json["message"] as? String {
-                    return LoginResult.Failed(message: message)
+                if let message = (json as? [String: Any])?["message"] as? String {
+                    return LoginResult.failed(message: message)
                 } else {
-                    return LoginResult.OK
+                    return LoginResult.ok
                 }
             }
-            .asDriver(onErrorJustReturn: LoginResult.Failed(message: "Oops, something went wrong")).debug()
+            .asDriver(onErrorJustReturn: LoginResult.failed(message: "Oops, something went wrong")).debug()
     }
 }

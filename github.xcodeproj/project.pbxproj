@@ -391,10 +391,12 @@
 					539B32841C90D776002681A0 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = GJ4QW95FWW;
+						LastSwiftMigration = 0820;
 					};
 					539B32981C90D776002681A0 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = GJ4QW95FWW;
+						LastSwiftMigration = 0820;
 						TestTargetID = 539B32841C90D776002681A0;
 					};
 				};
@@ -712,7 +714,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tailec.github;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -725,7 +727,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tailec.github;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -733,7 +735,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D1A901B585AF477AA3BF4EC /* Pods-githubTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = githubTests/Info.plist;
@@ -741,7 +742,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = tailec.githubTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/github.app/github";
 			};
 			name = Debug;
@@ -750,14 +751,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 95F8676DF8D57D15892649A7 /* Pods-githubTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = githubTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tailec.githubTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/github.app/github";
 			};
 			name = Release;

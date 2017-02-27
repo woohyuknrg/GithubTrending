@@ -3,7 +3,7 @@ import Nimble
 import RxBlocking
 import RxSwift
 import RxCocoa
-import RxTests
+import RxTest
 import Moya
 @testable import github
 
@@ -16,9 +16,9 @@ class RepositoryViewModelSpec: QuickSpec {
         
         beforeEach {
             scheduler = TestScheduler(initialClock: 0)
-            repo = Repo(id: 10, createdAt: NSDate(), fullName: "org/repo", description: "swift repo", language: nil, stargazers: 10, forks: 12, type: .Source, owner: Owner(id: 10, name: "me", fullName: "me"))
+            repo = Repo(id: 10, createdAt: Date(), fullName: "org/repo", description: "swift repo", language: nil, stargazers: 10, forks: 12, type: .source, owner: Owner(id: 10, name: "me", fullName: "me"))
             driveOnScheduler(scheduler) {
-                sut = RepositoryViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.ImmediatelyStub), repo: repo)
+                sut = RepositoryViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.immediatelyStub), repo: repo)
             }
             disposeBag = DisposeBag()
         }
@@ -46,7 +46,7 @@ class RepositoryViewModelSpec: QuickSpec {
         }
         
         it("fetches user data and return last pull request, no issues and no commits") {
-            let observer = scheduler.createObserver([RepositorySectionViewModel])
+            let observer = scheduler.createObserver([RepositorySectionViewModel].self)
             
             scheduler.scheduleAt(100) {
                 sut.dataObservable.asObservable().subscribe(observer).addDisposableTo(disposeBag)

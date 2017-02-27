@@ -6,13 +6,13 @@ class SearchViewController: UIViewController {
     
     var viewModel: SearchViewModel?
     
-    @IBOutlet weak private var searchTextField: UITextField!
-    @IBOutlet weak private var tableView: UITableView!
-    @IBOutlet weak private var exploreNewReposView: UIView!
-    @IBOutlet weak private var nothingFoundView: UIView!
+    @IBOutlet weak fileprivate var searchTextField: UITextField!
+    @IBOutlet weak fileprivate var tableView: UITableView!
+    @IBOutlet weak fileprivate var exploreNewReposView: UIView!
+    @IBOutlet weak fileprivate var nothingFoundView: UIView!
 
-    private var dataSource = [RepoCellViewModel]()
-    private let disposeBag = DisposeBag()
+    fileprivate var dataSource = [RepoCellViewModel]()
+    fileprivate let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,7 @@ class SearchViewController: UIViewController {
         bindToRx()
     }
     
-    private func bindToRx() {
+    fileprivate func bindToRx() {
         guard let vm = viewModel else {
             return
         }
@@ -28,50 +28,50 @@ class SearchViewController: UIViewController {
         title = vm.title
         tabBarItem.title = vm.title
 
-        searchTextField.rx_text
+        searchTextField.rx.text.orEmpty
             .bindTo(vm.searchText)
             .addDisposableTo(disposeBag)
         
-        tableView.rx_itemSelected
+        tableView.rx.itemSelected
             .bindTo(vm.selectedItem)
             .addDisposableTo(disposeBag)
         
         vm.results
-            .driveNext { [weak self] result in
+            .drive(onNext: { [weak self] result in
                 self?.removeAnyViewsAboveTableView()
                 switch result {
-                    case .Query(let cellViewModels):
+                    case .query(let cellViewModels):
                         self?.dataSource = cellViewModels
                         self?.tableView.reloadData()
-                    case .Empty:
+                    case .empty:
                         self?.layoutExploreNewReposView()
-                    case .QueryNothingFound:
+                    case .queryNothingFound:
                         self?.layoutNothingFoundView()
                 }
-            }
+            })
             .addDisposableTo(disposeBag)
 
         vm.executing
-            .drive(UIApplication.sharedApplication().rx_networkActivityIndicatorVisible)
+            .drive(UIApplication.shared.rx.isNetworkActivityIndicatorVisible)
             .addDisposableTo(disposeBag)
         
         vm.selectedViewModel
-            .subscribeNext { [weak self] viewModel in
+            .subscribe(onNext: { [weak self] viewModel in
                 let repositoryViewController = UIStoryboard.main.repositoryViewController
                 repositoryViewController.viewModel = viewModel
-                self?.showViewController(repositoryViewController, sender: nil)
-            }
+                self?.show(repositoryViewController, sender: nil)
+            })
             .addDisposableTo(disposeBag)
     }
 }
 
 extension SearchViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCellWithIdentifier(String(RepoCell), forIndexPath: indexPath) as! RepoCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RepoCell.self), for: indexPath) as! RepoCell
             let rowViewModel = dataSource[indexPath.row]
             cell.configure(rowViewModel.fullName, description: rowViewModel.description, language: rowViewModel.language, stars: rowViewModel.stars)
             return cell
@@ -80,39 +80,40 @@ extension SearchViewController: UITableViewDataSource {
 
 // MARK: UI stuff
 extension SearchViewController {
-    private func configureTableView() {
-        tableView.registerNib(UINib(nibName: String(RepoCell), bundle: nil), forCellReuseIdentifier: String(RepoCell))
+    fileprivate func configureTableView() {
+        tableView.register(UINib(nibName: String(describing: RepoCell.self), bundle: nil),
+                           forCellReuseIdentifier: String(describing: RepoCell.self))
         tableView.tableFooterView = UIView() // Removes separators in empty cells
         tableView.estimatedRowHeight = 100.0;
         tableView.rowHeight = UITableViewAutomaticDimension;
     }
     
-    private func removeAnyViewsAboveTableView() {
+    fileprivate func removeAnyViewsAboveTableView() {
         nothingFoundView.removeFromSuperview()
         exploreNewReposView.removeFromSuperview()
     }
     
-    private func layoutNothingFoundView() {
+    fileprivate func layoutNothingFoundView() {
         view.addSubview(nothingFoundView)
         
         let views = [
-            "searchTextField" : searchTextField,
-            "nothingFoundView" : nothingFoundView
+            "searchTextField" : searchTextField as Any,
+            "nothingFoundView" : nothingFoundView as Any
         ]
         nothingFoundView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[nothingFoundView]|", options: [], metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[searchTextField][nothingFoundView]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[nothingFoundView]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[searchTextField][nothingFoundView]|", options: [], metrics: nil, views: views))
     }
     
-    private func layoutExploreNewReposView() {
+    fileprivate func layoutExploreNewReposView() {
         view.addSubview(exploreNewReposView)
         
         let views = [
-            "searchTextField" : searchTextField,
-            "exploreNewReposView" : exploreNewReposView
+            "searchTextField" : searchTextField as Any,
+            "exploreNewReposView" : exploreNewReposView as Any
         ]
         exploreNewReposView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[exploreNewReposView]|", options: [], metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[searchTextField][exploreNewReposView]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[exploreNewReposView]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[searchTextField][exploreNewReposView]|", options: [], metrics: nil, views: views))
     }
 }

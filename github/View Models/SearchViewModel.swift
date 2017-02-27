@@ -4,16 +4,16 @@ import RxCocoa
 import Moya
 
 enum SearchViewModelResult {
-    case Query([RepoCellViewModel])
-    case QueryNothingFound
-    case Empty
+    case query([RepoCellViewModel])
+    case queryNothingFound
+    case empty
 }
 
 class SearchViewModel {
 
     // Input
     var searchText = Variable("")
-    var selectedItem = PublishSubject<NSIndexPath>()
+    var selectedItem = PublishSubject<IndexPath>()
     
     // Output
     let results: Driver<SearchViewModelResult>
@@ -21,8 +21,8 @@ class SearchViewModel {
     let selectedViewModel: Observable<RepositoryViewModel>
     let title = "Search"
     
-    private let repoModels: Variable<[Repo]>
-    private let provider: RxMoyaProvider<GitHub>
+    fileprivate let repoModels: Variable<[Repo]>
+    fileprivate let provider: RxMoyaProvider<GitHub>
     
     init(provider: RxMoyaProvider<GitHub>) {
         self.provider = provider
@@ -39,27 +39,27 @@ class SearchViewModel {
             .throttle(0.3, scheduler: MainScheduler.instance)
             .filter { $0.characters.count > 0 }
             .flatMapLatest { query in
-                provider.request(GitHub.RepoSearch(query: query))
+                provider.request(GitHub.repoSearch(query: query))
                     .retry(3)
                     .trackActivity(activityIndicator)
                     .observeOn(MainScheduler.instance)
             }
             .mapToModels(Repo.self, arrayRootKey: "items")
-            .doOnNext { models in
+            .do(onNext: { models in
                 repoModels.value = models
-            }
+            })
             .mapToRepoCellViewModels()
             .map { viewModels -> SearchViewModelResult in
-                viewModels.isEmpty ? .QueryNothingFound : .Query(viewModels)
+                viewModels.isEmpty ? .queryNothingFound : .query(viewModels)
             }
-            .asDriver(onErrorJustReturn: .QueryNothingFound)
+            .asDriver(onErrorJustReturn: .queryNothingFound)
         
          let noResultsObservable = searchTextObservable
             .filter { $0.characters.count == 0 }
             .map { _ -> SearchViewModelResult in
-                .Empty
+                .empty
             }
-            .asDriver(onErrorJustReturn: .Empty)
+            .asDriver(onErrorJustReturn: .empty)
         
         results = Driver.of(queryResultsObservable, noResultsObservable).merge()
         

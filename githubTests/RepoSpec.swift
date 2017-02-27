@@ -12,7 +12,7 @@ class RepoSpec: QuickSpec {
                 "description" : "nice repo",
                 "stargazers_count" : 42,
                 "forks" : 1,
-                "fork" : false]
+                "fork" : false] as [String : Any]
             beforeEach {
                 sut = Repo.fromJSON(json)
             }
@@ -23,16 +23,16 @@ class RepoSpec: QuickSpec {
                 }
                 it("should have valid creation date") {
                     
-                    let components = NSDateComponents()
+                    var components = DateComponents()
                     components.day = 14
                     components.month = 11
                     components.year = 2008
                     components.hour = 3
                     components.minute = 57
                     components.second = 43
-                    components.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+                    components.timeZone = TimeZone(secondsFromGMT: 0)
                     
-                    let date = NSCalendar.currentCalendar().dateFromComponents(components)
+                    let date = Calendar.current.date(from: components)
                     expect(sut.createdAt) == date
                 }
                 it("should have valid full name") {
@@ -48,7 +48,7 @@ class RepoSpec: QuickSpec {
                     expect(sut.forks) == 1
                 }
                 it ("should have valid type") {
-                    expect(sut.type) == .Source
+                    expect(sut.type) == .source
                 }
             }
         }

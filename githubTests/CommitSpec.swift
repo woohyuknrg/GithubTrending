@@ -13,7 +13,7 @@ class CommitSpec: QuickSpec {
                 "committer" : [
                     "login" : "john",
                 ],
-                "createdAt" : "2008-11-14T03:57:43Z"]
+                "createdAt" : "2008-11-14T03:57:43Z"] as [String : Any]
             beforeEach {
                 sut = Commit.fromJSON(json)
             }
@@ -29,16 +29,16 @@ class CommitSpec: QuickSpec {
                 
                 it("should have valid creation date") {
                     
-                    let components = NSDateComponents()
+                    var components = DateComponents()
                     components.day = 14
                     components.month = 11
                     components.year = 2008
                     components.hour = 3
                     components.minute = 57
                     components.second = 43
-                    components.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+                    components.timeZone = TimeZone(secondsFromGMT: 0)
                     
-                    let date = NSCalendar.currentCalendar().dateFromComponents(components)
+                    let date = Calendar.current.date(from: components)
                     expect(sut.date) == date
                 }
             }

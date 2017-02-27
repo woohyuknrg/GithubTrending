@@ -3,7 +3,7 @@ import Nimble
 import RxBlocking
 import RxSwift
 import RxCocoa
-import RxTests
+import RxTest
 import Moya
 @testable import github
 
@@ -16,7 +16,7 @@ class LoginViewModelSpec: QuickSpec {
         beforeEach {
             scheduler = TestScheduler(initialClock: 0)
             driveOnScheduler(scheduler) {
-                sut = LoginViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.ImmediatelyStub))
+                sut = LoginViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.immediatelyStub))
             }
             disposeBag = DisposeBag()
         }
@@ -27,7 +27,7 @@ class LoginViewModelSpec: QuickSpec {
         }
         
         it("should enable UI elements when valid login credentials are entered") {
-            let observer = scheduler.createObserver(Bool)
+            let observer = scheduler.createObserver(Bool.self)
 
 
             scheduler.scheduleAt(100) {
@@ -51,7 +51,7 @@ class LoginViewModelSpec: QuickSpec {
         }
         
         it("should make network request and return error when valid login credentials are entered") {
-            let results = scheduler.createObserver(LoginResult)
+            let results = scheduler.createObserver(LoginResult.self)
             
             scheduler.scheduleAt(100) {
                 sut.loginFinished.asObservable().subscribe(results).addDisposableTo(disposeBag)
@@ -67,13 +67,13 @@ class LoginViewModelSpec: QuickSpec {
             
             XCTAssertEqual(results.events,
                 [
-                    next(201, LoginResult.Failed(message: "Oops, something went wrong")),
+                    next(201, LoginResult.failed(message: "Oops, something went wrong")),
                     completed(201)
                 ])
         }
         
         it("should not enable UI elements when invalid credentials are entered") {
-            let observer = scheduler.createObserver(Bool)
+            let observer = scheduler.createObserver(Bool.self)
             
             scheduler.scheduleAt(100) {
                 sut.loginEnabled.asObservable().subscribe(observer).addDisposableTo(disposeBag)
