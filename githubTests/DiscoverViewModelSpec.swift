@@ -35,7 +35,7 @@ class DiscoverViewModelSpec: QuickSpec {
             let observer = scheduler.createObserver([RepoCellViewModel].self)
             
             scheduler.scheduleAt(100) {
-                sut.results.asObservable().subscribe(observer).addDisposableTo(disposeBag)
+                sut.results.asObservable().subscribe(observer).disposed(by: disposeBag)
             }
             
             scheduler.start()
@@ -52,7 +52,7 @@ class DiscoverViewModelSpec: QuickSpec {
             let observer = scheduler.createObserver([RepoCellViewModel].self)
             
             scheduler.scheduleAt(100) {
-                sut.results.asObservable().subscribe(observer).addDisposableTo(disposeBag)
+                sut.results.asObservable().subscribe(observer).disposed(by: disposeBag)
             }
             
             scheduler.scheduleAt(200) {
@@ -73,8 +73,8 @@ class DiscoverViewModelSpec: QuickSpec {
         it("sends true when network request is executing and false when it finishes") {
             let observer = scheduler.createObserver(Bool.self)
             scheduler.scheduleAt(100) {
-                sut.executing.asObservable().subscribe(observer).addDisposableTo(disposeBag)
-                sut.results.asObservable().subscribe().addDisposableTo(disposeBag)
+                sut.executing.asObservable().subscribe(observer).disposed(by: disposeBag)
+                sut.results.asObservable().subscribe().disposed(by: disposeBag)
             }
             
             scheduler.start()
@@ -91,7 +91,7 @@ class DiscoverViewModelSpec: QuickSpec {
             let observer = scheduler.createObserver(RepositoryViewModel.self)
             
             scheduler.scheduleAt(100) {
-                sut.results.asObservable().subscribe().addDisposableTo(disposeBag)
+                sut.results.asObservable().subscribe().disposed(by: disposeBag)
             }
             
             scheduler.scheduleAt(200) {
@@ -99,7 +99,7 @@ class DiscoverViewModelSpec: QuickSpec {
             }
             
             scheduler.scheduleAt(300) {
-                sut.selectedViewModel.asObservable().subscribe(observer).addDisposableTo(disposeBag)
+                sut.selectedViewModel.asObservable().subscribe(observer).disposed(by: disposeBag)
             }
             
             scheduler.start()

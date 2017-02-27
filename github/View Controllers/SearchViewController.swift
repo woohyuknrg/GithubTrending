@@ -30,11 +30,11 @@ class SearchViewController: UIViewController {
 
         searchTextField.rx.text.orEmpty
             .bindTo(vm.searchText)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
             .bindTo(vm.selectedItem)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         vm.results
             .drive(onNext: { [weak self] result in
@@ -49,11 +49,11 @@ class SearchViewController: UIViewController {
                         self?.layoutNothingFoundView()
                 }
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         vm.executing
             .drive(UIApplication.shared.rx.isNetworkActivityIndicatorVisible)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         vm.selectedViewModel
             .subscribe(onNext: { [weak self] viewModel in
@@ -61,7 +61,7 @@ class SearchViewController: UIViewController {
                 repositoryViewController.viewModel = viewModel
                 self?.show(repositoryViewController, sender: nil)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
 }
 

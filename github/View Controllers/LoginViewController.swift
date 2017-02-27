@@ -20,19 +20,19 @@ class LoginViewController: UIViewController {
     }
     
     func bindToRx() {
-        _ = usernameTextField.rx.text.orEmpty.bindTo(viewModel.username).addDisposableTo(disposeBag)
-        _ = passwordTextField.rx.text.orEmpty.bindTo(viewModel.password).addDisposableTo(disposeBag)
-        _ = signInButton.rx.tap.bindTo(viewModel.loginTaps).addDisposableTo(disposeBag)
+        _ = usernameTextField.rx.text.orEmpty.bindTo(viewModel.username).disposed(by: disposeBag)
+        _ = passwordTextField.rx.text.orEmpty.bindTo(viewModel.password).disposed(by: disposeBag)
+        _ = signInButton.rx.tap.bindTo(viewModel.loginTaps).disposed(by: disposeBag)
         
         viewModel.loginEnabled
             .drive(signInButton.rx.isEnabled)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.loginExecuting
             .drive(onNext: { executing in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = executing
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.loginFinished
             .drive(onNext: { [weak self] loginResult in
@@ -45,7 +45,7 @@ class LoginViewController: UIViewController {
                     self?.dismiss(animated: true, completion: nil)
                 }
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     func dismissKeyboard() {

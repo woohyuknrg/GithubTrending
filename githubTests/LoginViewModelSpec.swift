@@ -31,7 +31,7 @@ class LoginViewModelSpec: QuickSpec {
 
 
             scheduler.scheduleAt(100) {
-                sut.loginEnabled.asObservable().subscribe(observer).addDisposableTo(disposeBag)
+                sut.loginEnabled.asObservable().subscribe(observer).disposed(by: disposeBag)
 
             }
             
@@ -54,7 +54,7 @@ class LoginViewModelSpec: QuickSpec {
             let results = scheduler.createObserver(LoginResult.self)
             
             scheduler.scheduleAt(100) {
-                sut.loginFinished.asObservable().subscribe(results).addDisposableTo(disposeBag)
+                sut.loginFinished.asObservable().subscribe(results).disposed(by: disposeBag)
             }
             
             scheduler.scheduleAt(200) {
@@ -76,7 +76,7 @@ class LoginViewModelSpec: QuickSpec {
             let observer = scheduler.createObserver(Bool.self)
             
             scheduler.scheduleAt(100) {
-                sut.loginEnabled.asObservable().subscribe(observer).addDisposableTo(disposeBag)
+                sut.loginEnabled.asObservable().subscribe(observer).disposed(by: disposeBag)
             }
             
             scheduler.scheduleAt(200) {
@@ -93,5 +93,31 @@ class LoginViewModelSpec: QuickSpec {
             
             expect(results) == [false, false, false]
         }
+        /*
+        it("normal test") {
+            let xs = scheduler.createHotObservable([
+                next(150, 1),
+                next(210, 0),
+                next(220, 1),
+                next(230, 2),
+                next(240, 4),
+                completed(300)
+                ])
+            let res = scheduler.start { xs.map { $0 * 2 } }
+            let correctEvents = [
+                next(210, 0 * 2),
+                next(220, 1 * 2),
+                next(230, 2 * 2),
+                next(240, 4 * 2),
+                completed(300)
+            ]
+            let correctSubscriptions = [
+                Subscription(200, 300)
+            ]
+
+            XCTAssertEqual(res.events, correctEvents)
+            XCTAssertEqual(xs.subscriptions, correctSubscriptions)
+        }
+ */
     }
 }

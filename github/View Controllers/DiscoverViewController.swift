@@ -28,7 +28,7 @@ class DiscoverViewController: UIViewController {
         
         tableView.rx.itemSelected
             .bindTo(vm.selectedItem)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         vm.results.drive(tableView.rx.items) {
             (tv: UITableView, index, rowViewModel: RepoCellViewModel) in
@@ -37,24 +37,24 @@ class DiscoverViewController: UIViewController {
                 cell.configure(rowViewModel.fullName, description: rowViewModel.description, language: rowViewModel.language, stars: rowViewModel.stars)
                 return cell
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         vm.results
             .drive(onNext: { [weak self] _ in
                 self?.refreshControl.endRefreshing()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         vm.executing
             .drive(onNext: { executing in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = executing
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         vm.noResultsFound
             .map { !$0 }
             .drive(noResultsView.rx.isHidden)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         vm.selectedViewModel
             .subscribe(onNext: { [weak self] repoViewModel in
@@ -62,7 +62,7 @@ class DiscoverViewController: UIViewController {
                 repositoryViewController.viewModel = repoViewModel
                 self?.show(repositoryViewController, sender: nil)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         let tapGestureRecognizer = UITapGestureRecognizer()
         noResultsView.addGestureRecognizer(tapGestureRecognizer)
@@ -70,7 +70,7 @@ class DiscoverViewController: UIViewController {
         _ = Observable.of(refreshControl.rx_animating.asObservable(), tapGestureRecognizer.rx.event.map { _ in () })
             .merge()
             .bindTo(vm.triggerRefresh)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
     }
     
