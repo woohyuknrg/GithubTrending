@@ -13,7 +13,7 @@ class RepoSpec: QuickSpec {
                 "stargazers_count" : 42,
                 "forks" : 1,
                 "fork" : false] as [String : Any]
-            beforeEach {
+            beforeSuite {
                 sut = Repo.fromJSON(json)
             }
             

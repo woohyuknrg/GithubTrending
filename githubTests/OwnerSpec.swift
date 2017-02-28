@@ -9,7 +9,7 @@ class OwnerSpec: QuickSpec {
             let json = ["id" : 42,
                 "name" : "john",
                 "full_name" : "john doe"] as [String : Any]
-            beforeEach {
+            beforeSuite {
                 sut = Owner.fromJSON(json)
             }
             

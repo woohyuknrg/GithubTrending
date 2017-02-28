@@ -11,7 +11,7 @@ class IssueSpec: QuickSpec {
                     "login" : "john",
                 ],
                 "createdAt" : "2008-11-14T03:57:43Z"] as [String : Any]
-            beforeEach {
+            beforeSuite {
                 sut = Issue.fromJSON(json)
             }
             

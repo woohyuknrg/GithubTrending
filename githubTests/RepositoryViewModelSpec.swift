@@ -14,7 +14,7 @@ class RepositoryViewModelSpec: QuickSpec {
         var disposeBag: DisposeBag!
         var repo: Repo!
         
-        beforeEach {
+        beforeSuite {
             scheduler = TestScheduler(initialClock: 0)
             repo = Repo(id: 10, createdAt: Date(), fullName: "org/repo", description: "swift repo", language: nil, stargazers: 10, forks: 12, type: .source, owner: Owner(id: 10, name: "me", fullName: "me"))
             driveOnScheduler(scheduler) {
@@ -23,7 +23,7 @@ class RepositoryViewModelSpec: QuickSpec {
             disposeBag = DisposeBag()
         }
         
-        afterEach {
+        afterSuite {
             scheduler = nil
             sut = nil
             disposeBag = nil
