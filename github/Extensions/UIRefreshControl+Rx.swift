@@ -1,9 +1,10 @@
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
 
-extension UIRefreshControl {
-    public var rx_animating: ControlEvent<Void> {
-        return rx.controlEvent(.valueChanged)
+extension Reactive where Base: UIRefreshControl {
+    
+    public var isAnimating: ControlEvent<Void> {
+        return controlEvent(.valueChanged)
     }
 }

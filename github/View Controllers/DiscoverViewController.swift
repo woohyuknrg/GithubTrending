@@ -39,16 +39,12 @@ class DiscoverViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        vm.results
-            .drive(onNext: { [weak self] _ in
-                self?.refreshControl.endRefreshing()
-            })
+        vm.executing
+            .drive(refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
         vm.executing
-            .drive(onNext: { executing in
-                UIApplication.shared.isNetworkActivityIndicatorVisible = executing
-            })
+            .drive(UIApplication.shared.rx.isNetworkActivityIndicatorVisible)
             .disposed(by: disposeBag)
         
         vm.noResultsFound
@@ -57,7 +53,7 @@ class DiscoverViewController: UIViewController {
             .disposed(by: disposeBag)
         
         vm.selectedViewModel
-            .subscribe(onNext: { [weak self] repoViewModel in
+            .drive(onNext: { [weak self] repoViewModel in
                 let repositoryViewController = UIStoryboard.main.repositoryViewController
                 repositoryViewController.viewModel = repoViewModel
                 self?.show(repositoryViewController, sender: nil)
@@ -67,7 +63,7 @@ class DiscoverViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer()
         noResultsView.addGestureRecognizer(tapGestureRecognizer)
         
-        _ = Observable.of(refreshControl.rx_animating.asObservable(), tapGestureRecognizer.rx.event.map { _ in () })
+        _ = Observable.of(refreshControl.rx.isAnimating.asObservable(), tapGestureRecognizer.rx.event.map { _ in () })
             .merge()
             .bindTo(vm.triggerRefresh)
             .disposed(by: disposeBag)

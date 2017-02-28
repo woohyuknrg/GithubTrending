@@ -29,10 +29,8 @@ class LoginViewModelSpec: QuickSpec {
         it("should enable UI elements when valid login credentials are entered") {
             let observer = scheduler.createObserver(Bool.self)
 
-
             scheduler.scheduleAt(100) {
-                sut.loginEnabled.asObservable().subscribe(observer).disposed(by: disposeBag)
-
+                sut.loginEnabled.drive(observer).disposed(by: disposeBag)
             }
             
             scheduler.scheduleAt(200) {
@@ -54,7 +52,7 @@ class LoginViewModelSpec: QuickSpec {
             let results = scheduler.createObserver(LoginResult.self)
             
             scheduler.scheduleAt(100) {
-                sut.loginFinished.asObservable().subscribe(results).disposed(by: disposeBag)
+                sut.loginFinished.drive(results).disposed(by: disposeBag)
             }
             
             scheduler.scheduleAt(200) {
@@ -76,7 +74,7 @@ class LoginViewModelSpec: QuickSpec {
             let observer = scheduler.createObserver(Bool.self)
             
             scheduler.scheduleAt(100) {
-                sut.loginEnabled.asObservable().subscribe(observer).disposed(by: disposeBag)
+                sut.loginEnabled.drive(observer).disposed(by: disposeBag)
             }
             
             scheduler.scheduleAt(200) {

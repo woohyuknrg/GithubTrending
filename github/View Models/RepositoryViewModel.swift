@@ -25,7 +25,6 @@ class RepositoryViewModel {
         self.repo = repo
         
         readMeURLObservable = readMeTaps
-            .asObservable()
             .flatMap { _ in
                 GitHubProvider.request(GitHub.repoReadMe(owner: repo.owner.name, repoName: repo.fullName))
                     .retry(3)

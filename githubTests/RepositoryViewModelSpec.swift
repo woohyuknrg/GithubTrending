@@ -49,7 +49,7 @@ class RepositoryViewModelSpec: QuickSpec {
             let observer = scheduler.createObserver([RepositorySectionViewModel].self)
             
             scheduler.scheduleAt(100) {
-                sut.dataObservable.asObservable().subscribe(observer).disposed(by: disposeBag)
+                sut.dataObservable.drive(observer).disposed(by: disposeBag)
             }
             
             scheduler.start()

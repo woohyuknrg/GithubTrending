@@ -11,7 +11,7 @@ class DiscoverViewModel {
     let results: Driver<[RepoCellViewModel]>
     let noResultsFound: Driver<Bool>
     let executing: Driver<Bool>
-    let selectedViewModel: Observable<RepositoryViewModel>
+    let selectedViewModel: Driver<RepositoryViewModel>
     let title = "Trending"
     
     fileprivate let repos: Variable<[Repo]>
@@ -48,20 +48,20 @@ class DiscoverViewModel {
             })
             .asDriver(onErrorJustReturn: [])
         
-        selectedViewModel = selectedItem.asObservable()
+        selectedViewModel = selectedItem
+            .asDriver(onErrorJustReturn: IndexPath())
             .map { indexPath in
                 let repo = repos.value[indexPath.row]
                 return RepositoryViewModel(provider: provider, repo: repo)
             }
-            .shareReplay(1)
     }
 }
 
 extension Observable {
     func mapToRepos() -> Observable<[Repo]> {
         return self.map { json in
-            let dict = json as? [String: AnyObject]
-            if let items = dict?["items"] as? [AnyObject] {
+            let dict = json as? [String: Any]
+            if let items = dict?["items"] as? [Any] {
                 return Repo.fromJSONArray(items)
             } else {
                 return []
