@@ -1,45 +1,45 @@
 PODS:
-  - Alamofire (4.4.0)
-  - Moya/Core (8.0.2):
+  - Alamofire (4.5.0)
+  - Moya/Core (8.0.5):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
-  - Moya/RxSwift (8.0.2):
+  - Moya/RxSwift (8.0.5):
     - Moya/Core
     - RxSwift (~> 3.0)
-  - Nimble (6.0.1)
+  - Nimble (7.0.1)
   - Quick (1.1.0)
-  - Result (3.1.0)
-  - RxBlocking (3.2.0):
-    - RxSwift (~> 3.1)
-  - RxCocoa (3.2.0):
-    - RxSwift (~> 3.1)
-  - RxSwift (3.2.0)
-  - RxTest (3.2.0):
-    - RxSwift (~> 3.0)
+  - Result (3.2.3)
+  - RxBlocking (3.6.1):
+    - RxSwift (~> 3.6)
+  - RxCocoa (3.6.1):
+    - RxSwift (~> 3.6)
+  - RxSwift (3.6.1)
+  - RxTest (3.6.1):
+    - RxSwift (~> 3.6)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
-  - Moya/RxSwift (= 8.0.2)
-  - Nimble (= 6.0.1)
+  - Moya/RxSwift (= 8.0.5)
+  - Nimble (= 7.0.1)
   - Quick (= 1.1.0)
-  - RxBlocking (= 3.2.0)
-  - RxCocoa (= 3.2.0)
-  - RxSwift (= 3.2.0)
-  - RxTest (= 3.2.0)
+  - RxBlocking (= 3.6.1)
+  - RxCocoa (= 3.6.1)
+  - RxSwift (= 3.6.1)
+  - RxTest (= 3.6.1)
   - SwiftyJSON (= 3.1.4)
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
-  Moya: 47f61da5b634aa71f676431b64ee0f81e976296d
-  Nimble: 1527fd1bd2b4cf0636251a36bc8ab37e81da8347
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
+  Nimble: 657d000e11df8aebe27cdaf9d244de7f30ed87f7
   Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
-  Result: 4e3ed5995ed94d0cd6a09be9a431fce3f3624bbf
-  RxBlocking: ec8ed471ba77b4fb98a2d60f1f8419b0b46eaa23
-  RxCocoa: ccdf43101a70407097a29082f648ba1676075b30
-  RxSwift: 46574f70d416b7923c237195939cc488a7fbf3a0
-  RxTest: 85fdd6f753e8e62635a58d37bbdd3ce7d5abbef3
+  Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
+  RxBlocking: 4f4bd5732e8b952e54ae8a57739bcfb645de12bc
+  RxCocoa: 84a08739ab186248c7f31ce4ee92d6f8a947d690
+  RxSwift: f9de85ea20cd2f7716ee5409fc13523dc638e4e4
+  RxTest: 1d00348a7848c91ab5bf5d197d2378aa6b2bb356
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 2c2f139bea8dfd50d2214263a0120dc08a2a9ddc
+PODFILE CHECKSUM: a5cd3a530290a90cc057afe77ad9a1c185ab090a
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
