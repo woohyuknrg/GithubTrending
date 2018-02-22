@@ -17,8 +17,8 @@ class RepositoryViewModelSpec: QuickSpec {
         beforeSuite {
             scheduler = TestScheduler(initialClock: 0)
             repo = Repo(id: 10, createdAt: Date(), fullName: "org/repo", description: "swift repo", language: nil, stargazers: 10, forks: 12, type: .source, owner: Owner(id: 10, name: "me", fullName: "me"))
-            driveOnScheduler(scheduler) {
-                sut = RepositoryViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.immediatelyStub), repo: repo)
+            SharingScheduler.mock(scheduler: scheduler) {
+                sut = RepositoryViewModel(provider: MoyaProvider(stubClosure: MoyaProvider.immediatelyStub), repo: repo)
             }
             disposeBag = DisposeBag()
         }

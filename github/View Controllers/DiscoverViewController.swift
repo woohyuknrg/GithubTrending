@@ -27,7 +27,7 @@ class DiscoverViewController: UIViewController {
         tabBarItem.title = vm.title
         
         tableView.rx.itemSelected
-            .bindTo(vm.selectedItem)
+            .bind(to: vm.selectedItem)
             .disposed(by: disposeBag)
         
         vm.results.drive(tableView.rx.items) {
@@ -65,7 +65,7 @@ class DiscoverViewController: UIViewController {
         
         _ = Observable.of(refreshControl.rx.isAnimating.asObservable(), tapGestureRecognizer.rx.event.map { _ in () })
             .merge()
-            .bindTo(vm.triggerRefresh)
+            .bind(to: vm.triggerRefresh)
             .disposed(by: disposeBag)
         
     }

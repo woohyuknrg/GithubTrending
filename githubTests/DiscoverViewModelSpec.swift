@@ -15,8 +15,8 @@ class DiscoverViewModelSpec: QuickSpec {
         
         beforeEach {
             scheduler = TestScheduler(initialClock: 0)
-            driveOnScheduler(scheduler) {
-                sut = DiscoverViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.immediatelyStub))
+            SharingScheduler.mock(scheduler: scheduler) {
+                sut = DiscoverViewModel(provider: MoyaProvider(stubClosure: MoyaProvider.immediatelyStub))
             }
             disposeBag = DisposeBag()
         }

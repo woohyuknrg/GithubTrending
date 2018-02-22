@@ -20,9 +20,9 @@ class LoginViewController: UIViewController {
     }
     
     func bindToRx() {
-        _ = usernameTextField.rx.text.orEmpty.bindTo(viewModel.username).disposed(by: disposeBag)
-        _ = passwordTextField.rx.text.orEmpty.bindTo(viewModel.password).disposed(by: disposeBag)
-        _ = signInButton.rx.tap.bindTo(viewModel.loginTaps).disposed(by: disposeBag)
+        _ = usernameTextField.rx.text.orEmpty.bind(to: viewModel.username).disposed(by: disposeBag)
+        _ = passwordTextField.rx.text.orEmpty.bind(to: viewModel.password).disposed(by: disposeBag)
+        _ = signInButton.rx.tap.bind(to: viewModel.loginTaps).disposed(by: disposeBag)
         
         viewModel.loginEnabled
             .drive(signInButton.rx.isEnabled)

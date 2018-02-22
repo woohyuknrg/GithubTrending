@@ -2,9 +2,10 @@ import Foundation
 import Moya
 import RxSwift
 
-let GitHubProvider = RxMoyaProvider<GitHub>(endpointClosure: endpointClosure)
+let GitHubProvider = MoyaProvider<GitHub>()
 
 public enum GitHub {
+    /// sourcery: method = "GET", path = "/spaceships"
     case token(username: String, password: String)
     case repoSearch(query: String)
     case trendingReposSinceLastWeek
@@ -16,6 +17,21 @@ public enum GitHub {
 }
 
 extension GitHub: TargetType {
+    public var headers: [String : String]? {
+        switch self {
+        case let .token(userString, passwordString):
+            let credentialData = "\(userString):\(passwordString)".data(using: .utf8)!
+            let base64Credentials = credentialData.base64EncodedString()
+            return ["Authorization": "Basic \(base64Credentials)"]
+        default:
+            let appToken = Token()
+            guard let token = appToken.token else {
+                return nil
+            }
+            return ["Authorization": "token \(token)"]
+        }
+    }
+
     public var baseURL: URL { return URL(string: "https://api.github.com")! }
     
     public var path: String {
@@ -53,28 +69,6 @@ extension GitHub: TargetType {
         }
     }
     
-    public var parameters: [String: Any]? {
-        switch self {
-        case .token(_, _):
-            return [
-                "scopes": ["public_repo", "user"],
-                "note": "Ori iOS app (\(Date()))"
-            ]
-        case .repo(_,_),
-        .repoReadMe(_,_),
-        .pulls,
-        .issues,
-        .commits:
-            return nil
-        case .repoSearch(let query):
-            return ["q": query.URLEscapedString as AnyObject]
-        case .trendingReposSinceLastWeek:
-            return ["q" : "created:>" + Date().lastWeek(),
-                "sort" : "stars",
-                "order" : "desc"]
-        }
-    }
-    
     public var sampleData: Data {
         switch self {
         case .token(_, _):
@@ -97,29 +91,24 @@ extension GitHub: TargetType {
     }
     
     public var task: Task {
-        return .request
-    }
-    
-    public var parameterEncoding: ParameterEncoding {
-        return URLEncoding.default
-    }
-}
-
-var endpointClosure = { (target: GitHub) -> Endpoint<GitHub> in
-    let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-    let endpoint: Endpoint<GitHub> = Endpoint(url: url, sampleResponseClosure: {.networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters)
-    switch target {
-    case .token(let userString, let passwordString):
-        let credentialData = "\(userString):\(passwordString)".data(using: String.Encoding.utf8)!
-        let base64Credentials = credentialData.base64EncodedString(options: [])
-        return endpoint.adding(newHTTPHeaderFields: ["Authorization": "Basic \(base64Credentials)"])
-            .adding(newParameterEncoding: JSONEncoding.default)
-    default:
-        let appToken = Token()
-        guard let token = appToken.token else {
-            return endpoint
+        var parameters: [String : Any]? = nil
+        var encoding: ParameterEncoding = URLEncoding.default
+        switch self {
+        case .token(_, _):
+            parameters = ["scopes": ["public_repo", "user"], "note": "Ori iOS app (\(Date()))"]
+            encoding = JSONEncoding.default
+        case .repoSearch(let query):
+            parameters = ["q": query.URLEscapedString]
+        case .trendingReposSinceLastWeek:
+            parameters = ["q" : "created:>" + Date().lastWeek(), "sort" : "stars", "order" : "desc"]
+        default:
+            break
         }
-        return endpoint.adding(newHTTPHeaderFields: ["Authorization": "token \(token)"])
+
+        if let params = parameters {
+            return .requestParameters(parameters: params, encoding: encoding)
+        }
+        return .requestPlain
     }
 }
 

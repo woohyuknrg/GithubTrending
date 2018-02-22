@@ -14,7 +14,7 @@ extension ObservableType where E == Response {
     
     func checkIfRateLimitExceeded() -> Observable<E> {
         return self.map { response -> E in
-            guard let httpResponse = response.response as? HTTPURLResponse else {
+            guard let httpResponse = response.response else {
                 throw GithubError.generic
             }
         

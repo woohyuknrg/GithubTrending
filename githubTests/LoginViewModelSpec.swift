@@ -15,8 +15,8 @@ class LoginViewModelSpec: QuickSpec {
         
         beforeEach {
             scheduler = TestScheduler(initialClock: 0)
-            driveOnScheduler(scheduler) {
-                sut = LoginViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.immediatelyStub))
+            SharingScheduler.mock(scheduler: scheduler) {
+                sut = LoginViewModel(provider: MoyaProvider(stubClosure: MoyaProvider.immediatelyStub))
             }
             disposeBag = DisposeBag()
         }

@@ -14,8 +14,8 @@ class SearchViewModelSpec: QuickSpec {
         
         beforeEach {
             scheduler = TestScheduler(initialClock: 0)
-            driveOnScheduler(scheduler) {
-                sut = SearchViewModel(provider: RxMoyaProvider(stubClosure: MoyaProvider.immediatelyStub))
+            SharingScheduler.mock(scheduler: scheduler) {
+                sut = SearchViewModel(provider: MoyaProvider(stubClosure: MoyaProvider.immediatelyStub))
             }
         }
         

@@ -10,7 +10,7 @@ private struct ModelMock {
     let something: String
 }
 
-extension ModelMock: Decodable {
+extension ModelMock: github.Decodable {
     static func fromJSON(_ json: Any) -> ModelMock {
         let json = JSON(json)
         let something = json["something"].stringValue

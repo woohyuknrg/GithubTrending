@@ -32,7 +32,7 @@ class RepositoryViewController: UIViewController {
         forksCountLabel.text = vm.forksCounts
         starsCountLabel.text = vm.starsCount
         
-        readMeButton.rx.tap.bindTo(vm.readMeTaps).disposed(by: disposeBag)
+        readMeButton.rx.tap.bind(to: vm.readMeTaps).disposed(by: disposeBag)
         
         vm.readMeURLObservable.subscribe(onNext: { [weak self] url in
             let svc = SFSafariViewController(url: url, entersReaderIfAvailable: true)

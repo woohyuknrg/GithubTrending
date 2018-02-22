@@ -22,9 +22,9 @@ class SearchViewModel {
     let title = "Search"
     
     fileprivate let repoModels: Variable<[Repo]>
-    fileprivate let provider: RxMoyaProvider<GitHub>
+    fileprivate let provider: MoyaProvider<GitHub>
     
-    init(provider: RxMoyaProvider<GitHub>) {
+    init(provider: MoyaProvider<GitHub>) {
         self.provider = provider
         
         let activityIndicator = ActivityIndicator()
@@ -37,9 +37,9 @@ class SearchViewModel {
         
         let queryResultsObservable = searchTextObservable
             .throttle(0.3, scheduler: MainScheduler.instance)
-            .filter { $0.characters.count > 0 }
+            .filter { $0.count > 0 }
             .flatMapLatest { query in
-                provider.request(GitHub.repoSearch(query: query))
+                provider.rx.request(GitHub.repoSearch(query: query))
                     .retry(3)
                     .trackActivity(activityIndicator)
                     .observeOn(MainScheduler.instance)
@@ -55,7 +55,7 @@ class SearchViewModel {
             .asDriver(onErrorJustReturn: .queryNothingFound)
         
          let noResultsObservable = searchTextObservable
-            .filter { $0.characters.count == 0 }
+            .filter { $0.count == 0 }
             .map { _ -> SearchViewModelResult in
                 .empty
             }
@@ -70,6 +70,6 @@ class SearchViewModel {
             .map { model in
                 RepositoryViewModel(provider: provider, repo: model)
             }
-            .shareReplay(1)
+            .share(replay: 1)
     }
 }

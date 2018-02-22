@@ -1,45 +1,45 @@
 PODS:
-  - Alamofire (4.5.0)
-  - Moya/Core (8.0.5):
+  - Alamofire (4.6.0)
+  - Moya/Core (11.0.0):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
-  - Moya/RxSwift (8.0.5):
+  - Moya/RxSwift (11.0.0):
     - Moya/Core
-    - RxSwift (~> 3.0)
-  - Nimble (7.0.1)
-  - Quick (1.1.0)
-  - Result (3.2.3)
-  - RxBlocking (3.6.1):
-    - RxSwift (~> 3.6)
-  - RxCocoa (3.6.1):
-    - RxSwift (~> 3.6)
-  - RxSwift (3.6.1)
-  - RxTest (3.6.1):
-    - RxSwift (~> 3.6)
-  - SwiftyJSON (3.1.4)
+    - RxSwift (~> 4.0)
+  - Nimble (7.0.3)
+  - Quick (1.2.0)
+  - Result (3.2.4)
+  - RxBlocking (4.1.2):
+    - RxSwift (~> 4.0)
+  - RxCocoa (4.1.2):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.1.2)
+  - RxTest (4.1.2):
+    - RxSwift (~> 4.0)
+  - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
-  - Moya/RxSwift (= 8.0.5)
-  - Nimble (= 7.0.1)
-  - Quick (= 1.1.0)
-  - RxBlocking (= 3.6.1)
-  - RxCocoa (= 3.6.1)
-  - RxSwift (= 3.6.1)
-  - RxTest (= 3.6.1)
-  - SwiftyJSON (= 3.1.4)
+  - Moya/RxSwift (= 11.0.0)
+  - Nimble (= 7.0.3)
+  - Quick (= 1.2.0)
+  - RxBlocking (= 4.1.2)
+  - RxCocoa (= 4.1.2)
+  - RxSwift (= 4.1.2)
+  - RxTest (= 4.1.2)
+  - SwiftyJSON (= 4.0.0)
 
 SPEC CHECKSUMS:
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
-  Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
-  Nimble: 657d000e11df8aebe27cdaf9d244de7f30ed87f7
-  Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
-  Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
-  RxBlocking: 4f4bd5732e8b952e54ae8a57739bcfb645de12bc
-  RxCocoa: 84a08739ab186248c7f31ce4ee92d6f8a947d690
-  RxSwift: f9de85ea20cd2f7716ee5409fc13523dc638e4e4
-  RxTest: 1d00348a7848c91ab5bf5d197d2378aa6b2bb356
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Moya: be29766339783963a70d1279d69c891ab3a1393c
+  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  RxBlocking: f6054985901412fc8c02daa84e92d4ba68c61389
+  RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
+  RxSwift: e49536837d9901277638493ea537394d4b55f570
+  RxTest: e634f15fd2c2cd0e0120132ef7a4f7be69ad0393
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: a5cd3a530290a90cc057afe77ad9a1c185ab090a
+PODFILE CHECKSUM: 8a1ed9b402d26af9144d9716d1a3e2aa84dbc0da
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.4.0

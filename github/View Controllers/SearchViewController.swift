@@ -29,11 +29,11 @@ class SearchViewController: UIViewController {
         tabBarItem.title = vm.title
 
         searchTextField.rx.text.orEmpty
-            .bindTo(vm.searchText)
+            .bind(to: vm.searchText)
             .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
-            .bindTo(vm.selectedItem)
+            .bind(to: vm.selectedItem)
             .disposed(by: disposeBag)
         
         vm.results

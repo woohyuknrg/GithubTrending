@@ -15,9 +15,9 @@ class DiscoverViewModel {
     let title = "Trending"
     
     fileprivate let repos: Variable<[Repo]>
-    fileprivate let provider: RxMoyaProvider<GitHub>
+    fileprivate let provider: MoyaProvider<GitHub>
     
-    init(provider: RxMoyaProvider<GitHub>) {
+    init(provider: MoyaProvider<GitHub>) {
         self.provider = provider
         
         let activityIndicator = ActivityIndicator()
@@ -31,7 +31,7 @@ class DiscoverViewModel {
         
         results = triggerRefresh.startWith(())
             .flatMapLatest {
-                provider.request(.trendingReposSinceLastWeek)
+                provider.rx.request(.trendingReposSinceLastWeek)
                     .retry(3)
                     .observeOn(MainScheduler.instance)
                     .trackActivity(activityIndicator)

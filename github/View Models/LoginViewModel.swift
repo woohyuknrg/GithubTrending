@@ -15,9 +15,9 @@ class LoginViewModel {
     let loginExecuting: Driver<Bool>
     
     // Private
-    fileprivate let provider: RxMoyaProvider<GitHub>
+    fileprivate let provider: MoyaProvider<GitHub>
     
-    init(provider: RxMoyaProvider<GitHub>) {
+    init(provider: MoyaProvider<GitHub>) {
         self.provider = provider
         
         let activityIndicator = ActivityIndicator()
@@ -28,7 +28,7 @@ class LoginViewModel {
         let passwordObservable = password.asObservable()
         
         loginEnabled = Observable.combineLatest(usernameObservable, passwordObservable)
-            { $0.characters.count > 0 && $1.characters.count > 6 }
+            { $0.count > 0 && $1.count > 6 }
             .asDriver(onErrorJustReturn: false)
         
         let usernameAndPassword = Observable.combineLatest(usernameObservable, passwordObservable)
@@ -37,7 +37,7 @@ class LoginViewModel {
         loginFinished = loginTaps
             .withLatestFrom(usernameAndPassword)
             .flatMapLatest { (username, password) in
-                provider.request(GitHub.token(username: username, password: password))
+                provider.rx.request(GitHub.token(username: username, password: password))
                     .retry(3)
                     .trackActivity(activityIndicator)
                     .observeOn(MainScheduler.instance)
