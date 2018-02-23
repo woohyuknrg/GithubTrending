@@ -14,7 +14,7 @@ class DiscoverViewModel {
     let selectedViewModel: Driver<RepositoryViewModel>
     let title = "Trending"
     
-    fileprivate let repos: Variable<[Repo]>
+    fileprivate let repos: BehaviorRelay<[Repo]>
     fileprivate let provider: MoyaProvider<GitHub>
     
     init(provider: MoyaProvider<GitHub>) {
@@ -23,10 +23,10 @@ class DiscoverViewModel {
         let activityIndicator = ActivityIndicator()
         self.executing = activityIndicator.asDriver().distinctUntilChanged()
 
-        let noResultFoundSubject = Variable(false)
+        let noResultFoundSubject = BehaviorRelay(value: false)
         self.noResultsFound = noResultFoundSubject.asDriver().distinctUntilChanged()
         
-        let repos = Variable<[Repo]>([])
+        let repos = BehaviorRelay(value: [Repo]())
         self.repos = repos
         
         results = triggerRefresh.startWith(())
@@ -41,12 +41,12 @@ class DiscoverViewModel {
             .mapJSON()
             .mapToRepos()
             .do(onNext: {
-                repos.value = $0
+                repos.accept($0)
             })
             .mapToRepoCellViewModels()
             .catchErrorJustReturn([])
             .do(onNext: {  viewModels in
-                noResultFoundSubject.value = viewModels.isEmpty
+                noResultFoundSubject.accept(viewModels.isEmpty)
             })
             .asDriver(onErrorJustReturn: [])
         

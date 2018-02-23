@@ -12,7 +12,7 @@ enum SearchViewModelResult {
 class SearchViewModel {
 
     // Input
-    var searchText = Variable("")
+    var searchText = BehaviorRelay(value: "")
     var selectedItem = PublishSubject<IndexPath>()
     
     // Output
@@ -21,7 +21,7 @@ class SearchViewModel {
     let selectedViewModel: Observable<RepositoryViewModel>
     let title = "Search"
     
-    fileprivate let repoModels: Variable<[Repo]>
+    fileprivate let repoModels: BehaviorRelay<[Repo]>
     fileprivate let provider: MoyaProvider<GitHub>
     
     init(provider: MoyaProvider<GitHub>) {
@@ -30,7 +30,7 @@ class SearchViewModel {
         let activityIndicator = ActivityIndicator()
         self.executing = activityIndicator.asDriver().distinctUntilChanged()
         
-        let repoModels = Variable<[Repo]>([])
+        let repoModels = BehaviorRelay(value: [Repo]())
         self.repoModels = repoModels
         
         let searchTextObservable = searchText.asObservable()
@@ -46,7 +46,7 @@ class SearchViewModel {
             }
             .mapToModels(Repo.self, arrayRootKey: "items")
             .do(onNext: { models in
-                repoModels.value = models
+                repoModels.accept(models)
             })
             .mapToRepoCellViewModels()
             .map { viewModels -> SearchViewModelResult in

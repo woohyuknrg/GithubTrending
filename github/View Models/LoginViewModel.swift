@@ -5,8 +5,8 @@ import Moya
 
 class LoginViewModel {
     // Input
-    var username = Variable("")
-    var password = Variable("")
+    var username = BehaviorRelay(value: "")
+    var password = BehaviorRelay(value: "")
     var loginTaps = PublishSubject<Void>()
     
     // Output
