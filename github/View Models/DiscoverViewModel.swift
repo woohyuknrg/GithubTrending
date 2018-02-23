@@ -31,7 +31,9 @@ class DiscoverViewModel {
         
         results = triggerRefresh.startWith(())
             .flatMapLatest {
-                provider.rx.request(.trendingReposSinceLastWeek)
+                provider.rx.request(.trendingReposSinceLastWeek(q: "created:>" + Date().lastWeek(),
+                                                                sort: "stars",
+                                                                order: "desc"))
                     .retry(3)
                     .observeOn(MainScheduler.instance)
                     .trackActivity(activityIndicator)

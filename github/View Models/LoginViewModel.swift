@@ -37,7 +37,10 @@ class LoginViewModel {
         loginFinished = loginTaps
             .withLatestFrom(usernameAndPassword)
             .flatMapLatest { (username, password) in
-                provider.rx.request(GitHub.token(username: username, password: password))
+                provider.rx.request(GitHub.token(username: username,
+                                                 password: password,
+                                                 scopes: ["public_repo", "user"],
+                                                 note: "Ori iOS app (\(Date()))"))
                     .retry(3)
                     .trackActivity(activityIndicator)
                     .observeOn(MainScheduler.instance)

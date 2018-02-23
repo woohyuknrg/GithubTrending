@@ -39,7 +39,7 @@ class SearchViewModel {
             .throttle(0.3, scheduler: MainScheduler.instance)
             .filter { $0.count > 0 }
             .flatMapLatest { query in
-                provider.rx.request(GitHub.repoSearch(query: query))
+                provider.rx.request(GitHub.repoSearch(q: query.URLEscapedString))
                     .retry(3)
                     .trackActivity(activityIndicator)
                     .observeOn(MainScheduler.instance)

@@ -7,6 +7,7 @@ def sharedPods
   pod 'RxCocoa', '4.1.2'
   pod 'Moya/RxSwift', '11.0.0'
   pod 'SwiftyJSON', '4.0.0'
+  pod 'Sourcery', '0.10.1'
 end
 
 def testPods

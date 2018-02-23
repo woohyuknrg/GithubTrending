@@ -16,6 +16,7 @@ PODS:
   - RxSwift (4.1.2)
   - RxTest (4.1.2):
     - RxSwift (~> 4.0)
+  - Sourcery (0.10.1)
   - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
@@ -26,6 +27,7 @@ DEPENDENCIES:
   - RxCocoa (= 4.1.2)
   - RxSwift (= 4.1.2)
   - RxTest (= 4.1.2)
+  - Sourcery (= 0.10.1)
   - SwiftyJSON (= 4.0.0)
 
 SPEC CHECKSUMS:
@@ -38,8 +40,9 @@ SPEC CHECKSUMS:
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   RxTest: e634f15fd2c2cd0e0120132ef7a4f7be69ad0393
+  Sourcery: ac71ac4d490f62fd381a9f3b558f3093d91bddd5
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 8a1ed9b402d26af9144d9716d1a3e2aa84dbc0da
+PODFILE CHECKSUM: 4de75ca12c55a355a0211d0a6c79a89ece6cbd1a
 
 COCOAPODS: 1.4.0
