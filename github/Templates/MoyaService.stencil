@@ -40,9 +40,9 @@ extension {{ enum.name }} {
             params["{{ case.associatedValues.0.localName }}"] = turple
         {% else %}
         {% for associatedValue in case.associatedValues %}
-            {# {% if case.annotations.ignoreParams|!contains:"{{ associatedValue.localName }}" %} #}
+            {% if not case.annotations.ignoreParamLimitIndex or forloop.counter > case.annotations.ignoreParamLimitIndex %}
             params["{{ associatedValue.localName }}"] = turple.{{ associatedValue.localName }}
-            {# {% endif %} #}
+            {% endif %}
         {% endfor %}
         {% endif %}
             

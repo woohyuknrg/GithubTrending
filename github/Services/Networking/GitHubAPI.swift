@@ -22,7 +22,7 @@ extension MoyaService {
 
 public enum GitHub: MoyaService {
     /// sourcery:begin: noPathParam
-    /// sourcery: method = "post", paramEncoding = "JSONEncoding", path = "authorizations", ignoreParams = "username|password"
+    /// sourcery: method = "post", paramEncoding = "JSONEncoding", path = "authorizations", ignoreParamLimitIndex = 2
     case token(username: String, password: String, scopes: [String], note: String)
 
     /// sourcery: path = "search/repositories"

@@ -40,8 +40,6 @@ extension GitHub {
 
         switch self {
         case .token(let turple):
-            params["username"] = turple.username
-            params["password"] = turple.password
             params["scopes"] = turple.scopes
             params["note"] = turple.note
             encoding = JSONEncoding.default
